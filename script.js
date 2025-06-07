@@ -830,7 +830,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-    // Updated portfolioData array (make sure this matches your current data)
+    // Updated portfolioData with exact title matching
     const portfolioData = [
         {
             title: 'IAB Bagroda',
@@ -841,8 +841,8 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'membership'
         },
         {
-            title: 'Narrative Video Editing Portfolio',
-            description: 'A stunning video portfolio website for a creative agency with smooth animations and video integration. Features dynamic video backgrounds and interactive gallery.',
+            title: 'Narrative Video Editing Portfolio', // Fixed exact title match
+            description: 'A stunning video portfolio website for a creative agency with smooth animations and video integration. Features dynamic video backgrounds, interactive gallery, and seamless user experience.',
             image: 'project2.avif',
             tech: ['Next.js', 'GSAP', 'Framer Motion', 'Video API'],
             liveUrl: 'https://www.narativemedia.com/',
@@ -906,26 +906,51 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ];
 
-    // Updated portfolio modal functionality
+    // Enhanced portfolio modal functionality with better matching
     const initializePortfolioModals = () => {
-        // Get all portfolio items (both featured and expanded)
         const allPortfolioItems = document.querySelectorAll('.portfolio-item');
         
         allPortfolioItems.forEach((item, index) => {
             item.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                // Find the correct data based on the item's title
+                // Get the title from the clicked item
                 const itemTitle = item.querySelector('h3').textContent.trim();
-                const projectData = portfolioData.find(project => 
-                    project.title === itemTitle || 
-                    project.title.includes(itemTitle.split(' ')[0])
-                );
+                console.log('Clicked item title:', itemTitle); // Debug log
+                
+                // Enhanced matching logic
+                let projectData = portfolioData.find(project => {
+                    // Exact match first
+                    if (project.title === itemTitle) return true;
+                    
+                    // Partial match (case insensitive)
+                    if (project.title.toLowerCase() === itemTitle.toLowerCase()) return true;
+                    
+                    // Check if main keywords match
+                    const projectKeywords = project.title.toLowerCase().split(' ');
+                    const itemKeywords = itemTitle.toLowerCase().split(' ');
+                    
+                    // For Narrative project specifically
+                    if (itemTitle.includes('Narrative') && project.title.includes('Narrative')) return true;
+                    if (itemTitle.includes('IAB') && project.title.includes('IAB')) return true;
+                    if (itemTitle.includes('Social Media') && project.title.includes('Social Media')) return true;
+                    
+                    return false;
+                });
+                
+                // Fallback: if no match found, try index-based matching for featured items
+                if (!projectData && index < portfolioData.length) {
+                    projectData = portfolioData[index];
+                    console.log('Using index-based match:', projectData.title);
+                }
                 
                 if (projectData) {
+                    console.log('Opening modal for:', projectData.title); // Debug log
                     openProjectModal(projectData);
                 } else {
                     console.warn('Project data not found for:', itemTitle);
+                    // Show a fallback modal or error message
+                    showErrorModal(itemTitle);
                 }
             });
         });
@@ -939,53 +964,72 @@ document.addEventListener('DOMContentLoaded', () => {
             modal = createProjectModal();
         }
         
-        // Update modal content
-        modal.querySelector('.modal-title').textContent = data.title;
-        modal.querySelector('.modal-description').textContent = data.description;
-        modal.querySelector('.modal-image img').src = data.image;
-        modal.querySelector('.modal-image img').alt = data.title;
-        
-        // Update tech stack
-        const techContainer = modal.querySelector('.modal-tech');
-        techContainer.innerHTML = data.tech.map(tech => `<span>${tech}</span>`).join('');
-        
-        // Update links
-        const liveLink = modal.querySelector('.modal-live-link');
-        const contactLink = modal.querySelector('.modal-contact-link');
-        
-        if (data.liveUrl === '#contact') {
-            liveLink.style.display = 'none';
-            contactLink.style.display = 'flex';
-            contactLink.href = '#contact';
-        } else {
-            liveLink.style.display = 'flex';
-            liveLink.href = data.liveUrl;
-            contactLink.style.display = 'none';
+        // Update modal content with error handling
+        try {
+            modal.querySelector('.modal-title').textContent = data.title;
+            modal.querySelector('.modal-description').textContent = data.description;
+            
+            const modalImage = modal.querySelector('.modal-image img');
+            modalImage.src = data.image;
+            modalImage.alt = data.title;
+            
+            // Handle image loading errors
+            modalImage.onerror = function() {
+                this.src = 'project3.avif'; // Fallback image
+            };
+            
+            // Update tech stack
+            const techContainer = modal.querySelector('.modal-tech');
+            techContainer.innerHTML = data.tech.map(tech => `<span>${tech}</span>`).join('');
+            
+            // Update links
+            const liveLink = modal.querySelector('.modal-live-link');
+            const contactLink = modal.querySelector('.modal-contact-link');
+            
+            if (data.liveUrl === '#contact') {
+                liveLink.style.display = 'none';
+                contactLink.style.display = 'flex';
+                contactLink.href = '#contact';
+            } else {
+                liveLink.style.display = 'flex';
+                liveLink.href = data.liveUrl;
+                contactLink.style.display = 'flex'; // Show both buttons
+                contactLink.href = '#contact';
+            }
+            
+            // Show modal with animation
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+        } catch (error) {
+            console.error('Error opening modal:', error);
+            showErrorModal(data.title);
         }
-        
-        // Show modal
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
     };
 
-    // Create project modal function
+    // Error modal for debugging
+    const showErrorModal = (title) => {
+        alert(`Sorry, there was an issue loading details for "${title}". Please try again or contact me directly.`);
+    };
+
+    // Create project modal function (enhanced)
     const createProjectModal = () => {
         const modal = document.createElement('div');
         modal.className = 'project-modal';
         modal.innerHTML = `
             <div class="modal-overlay">
                 <div class="modal-content">
-                    <button class="modal-close">&times;</button>
+                    <button class="modal-close" aria-label="Close modal">&times;</button>
                     <div class="modal-body">
                         <div class="modal-image">
-                            <img src="" alt="">
+                            <img src="" alt="" loading="lazy">
                         </div>
                         <div class="modal-info">
                             <h3 class="modal-title"></h3>
                             <p class="modal-description"></p>
                             <div class="modal-tech"></div>
                             <div class="modal-links">
-                                <a href="#" class="modal-live-link" target="_blank">
+                                <a href="#" class="modal-live-link" target="_blank" rel="noopener">
                                     <i class="fas fa-external-link-alt"></i> 
                                     <span>View Live Project</span>
                                 </a>
@@ -1025,87 +1069,24 @@ document.addEventListener('DOMContentLoaded', () => {
         return modal;
     };
 
-    // View All Projects functionality
-    const initializeViewAllButton = () => {
-        const viewAllBtn = document.getElementById('viewAllBtn');
-        const allProjects = document.getElementById('allProjects');
-        const portfolioFilter = document.getElementById('portfolioFilter');
+    // Debug function to check all portfolio items
+    const debugPortfolioItems = () => {
+        const items = document.querySelectorAll('.portfolio-item h3');
+        console.log('All portfolio item titles:');
+        items.forEach((item, index) => {
+            console.log(`${index}: "${item.textContent.trim()}"`);
+        });
         
-        if (viewAllBtn && allProjects) {
-            let isExpanded = false;
-            
-            viewAllBtn.addEventListener('click', () => {
-                isExpanded = !isExpanded;
-                
-                if (isExpanded) {
-                    allProjects.style.display = 'grid';
-                    portfolioFilter.style.display = 'flex';
-                    viewAllBtn.querySelector('span').textContent = 'Show Less';
-                    viewAllBtn.querySelector('i').classList.replace('fa-arrow-down', 'fa-arrow-up');
-                    
-                    // Animate in
-                    setTimeout(() => {
-                        allProjects.style.opacity = '1';
-                        allProjects.style.transform = 'translateY(0)';
-                    }, 10);
-                    
-                    // Re-initialize modals for new items
-                    setTimeout(() => {
-                        initializePortfolioModals();
-                    }, 100);
-                    
-                } else {
-                    allProjects.style.opacity = '0';
-                    allProjects.style.transform = 'translateY(20px)';
-                    portfolioFilter.style.display = 'none';
-                    viewAllBtn.querySelector('span').textContent = 'View All Projects';
-                    viewAllBtn.querySelector('i').classList.replace('fa-arrow-up', 'fa-arrow-down');
-                    
-                    setTimeout(() => {
-                        allProjects.style.display = 'none';
-                    }, 300);
-                }
-            });
-        }
-    };
-
-    // Portfolio filter functionality
-    const initializePortfolioFilter = () => {
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const filter = button.getAttribute('data-filter');
-                
-                // Update active button
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                
-                // Filter items
-                const allItems = document.querySelectorAll('.portfolio-item');
-                allItems.forEach(item => {
-                    const category = item.getAttribute('data-category');
-                    
-                    if (filter === 'all' || category === filter) {
-                        item.style.display = 'block';
-                        item.style.opacity = '1';
-                        item.style.transform = 'scale(1)';
-                    } else {
-                        item.style.opacity = '0';
-                        item.style.transform = 'scale(0.8)';
-                        setTimeout(() => {
-                            if (item.style.opacity === '0') {
-                                item.style.display = 'none';
-                            }
-                        }, 300);
-                    }
-                });
-            });
+        console.log('Portfolio data titles:');
+        portfolioData.forEach((data, index) => {
+            console.log(`${index}: "${data.title}"`);
         });
     };
 
     // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
+        console.log('Initializing portfolio modals...');
+        debugPortfolioItems(); // Debug function
         initializePortfolioModals();
         initializeViewAllButton();
         initializePortfolioFilter();
@@ -1114,6 +1095,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Also initialize after dynamic content is loaded
     window.addEventListener('load', () => {
         setTimeout(() => {
+            console.log('Re-initializing portfolio modals after load...');
             initializePortfolioModals();
         }, 500);
     });
