@@ -15,7 +15,7 @@ A modern, responsive portfolio website showcasing my work as a Full-Stack Develo
 - **Glassmorphism** effects and smooth animations
 - **Custom Cursor** with interactive hover effects
 - **Floating Particles** and dynamic background elements
-- **Responsive Design** optimized for all devices
+- **Responsive Design** optimized for all devices 
 
 ### 🎯 Interactive Elements
 - **Loading Screen** with animated logo
