@@ -218,7 +218,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact
 
 **Abhinav Katare**
-- 📧 Email: [abhinavkatare18@gmail.com](mailto:abhinavkatare18@gmail.com)
+- 📧 Email: [we don't want to mention this] 
 - 💼 LinkedIn: [linkedin.com/in/abhinav-katare-94417730b](http://www.linkedin.com/in/abhinav-katare-94417730b)
 - 🌐 Portfolio: [Your Live URL]
 
