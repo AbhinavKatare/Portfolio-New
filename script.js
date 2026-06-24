@@ -115,7 +115,15 @@ function initProgressRail() {
     const doc = document.documentElement;
     const scrollable = doc.scrollHeight - doc.clientHeight;
     const pct = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
-    fill.style.height = `${Math.min(100, Math.max(0, pct))}%`;
+    const clamped = Math.min(100, Math.max(0, pct));
+    // On mobile (<640px) the rail is horizontal (top bar); on desktop it's vertical (left rail)
+    if (window.innerWidth <= 640) {
+      fill.style.width = `${clamped}%`;
+      fill.style.height = '100%';
+    } else {
+      fill.style.height = `${clamped}%`;
+      fill.style.width = '100%';
+    }
   }
   window.addEventListener('scroll', update, { passive: true });
   window.addEventListener('resize', update);
