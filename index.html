@@ -1202,6 +1202,207 @@ section{
   .hamburger.is-open span:nth-child(2){opacity:0;}
   .hamburger.is-open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
 }
+
+/* ============================================================
+   COMPREHENSIVE MOBILE RESPONSIVE — 480px and below
+   ============================================================ */
+
+/* Hide vertical progress rail on mobile — distracting on narrow screens */
+@media (max-width:640px){
+  .progress-rail{
+    top:0; left:0;
+    width:100%; height:2px;
+  }
+  .progress-fill{
+    width:0%; height:100%;
+    transition:width 0.1s linear;
+  }
+}
+
+/* Hero section mobile fixes */
+@media (max-width:640px){
+  .hero{padding-top:90px; min-height:auto; padding-bottom:60px;}
+  .hero-inner{padding:0 20px;}
+  .hero-title{font-size:clamp(2rem, 9.5vw, 2.8rem); max-width:100%;}
+  .hero-sub{font-size:0.95rem; max-width:100%; margin-top:20px;}
+  .hero-actions{
+    margin-top:28px;
+    flex-direction:column;
+    gap:12px;
+    align-items:flex-start;
+  }
+  .hero-actions .btn{width:100%; justify-content:center; padding:14px 24px;}
+  .hero-meta{
+    margin-top:44px;
+    gap:0;
+    flex-direction:row;
+    flex-wrap:wrap;
+    padding-top:24px;
+  }
+  .hero-meta-item{
+    flex:1 1 45%;
+    min-width:120px;
+    padding:12px 0;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .hero-meta-item:nth-child(odd){padding-right:12px; border-right:1px solid var(--line-soft);}
+  .hero-meta-item:nth-child(even){padding-left:12px;}
+  .hero-meta-num{font-size:1.6rem;}
+  .scroll-cue{display:none;}
+}
+
+/* Section spacing tighter on mobile */
+@media (max-width:640px){
+  section{padding:clamp(48px,10vw,80px) 0;}
+  .container{padding:0 18px;}
+  .section-head{margin-bottom:36px; gap:12px;}
+  .section-title{font-size:clamp(1.7rem, 7vw, 2.4rem);}
+  .section-desc{font-size:0.9rem;}
+}
+
+/* Story section mobile */
+@media (max-width:640px){
+  .story-lead{font-size:clamp(1.2rem, 5.5vw, 1.6rem);}
+  .story-flow{
+    margin-top:28px;
+    aspect-ratio:3/2;
+    max-width:100%;
+  }
+  .story-body{font-size:0.93rem; gap:16px;}
+  .story-pillars{grid-template-columns:1fr; gap:1px;}
+  .story-pillar{padding:18px;}
+  .story-pillar h4{font-size:0.9rem;}
+}
+
+/* Metrics band mobile */
+@media (max-width:640px){
+  .metrics{padding:36px 0;}
+  .metrics-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:1px;
+  }
+  .metric-item{padding:18px 14px;}
+  .metric-num{font-size:clamp(1.6rem,7vw,2rem);}
+  .metric-label{font-size:0.6rem; letter-spacing:0.1em;}
+}
+
+/* Founder bio mobile */
+@media (max-width:640px){
+  .founder-photo{max-width:240px; margin:0 auto; aspect-ratio:3/4;}
+  .founder-quote{font-size:clamp(1.1rem, 4.5vw, 1.5rem); line-height:1.4;}
+  .founder-sub{font-size:0.9rem;}
+  .founder-tags{gap:8px;}
+  .founder-tags span{font-size:0.65rem; padding:6px 12px;}
+  .founder-sign{flex-direction:column; align-items:flex-start; gap:8px;}
+  .founder-sign-mark{font-size:1.3rem;}
+  .founder-sign-meta{font-size:0.62rem;}
+}
+
+/* Recognition strip mobile */
+@media (max-width:640px){
+  .recognition{padding:32px 0;}
+  .recognition-row{gap:24px;}
+  .recognition-item{font-size:0.95rem;}
+}
+
+/* Work / case studies mobile */
+@media (max-width:640px){
+  .case{grid-template-columns:1fr; margin-bottom:20px;}
+  .case-visual{min-height:160px; border-right:none; border-bottom:1px solid var(--line-soft);}
+  .case-mark{font-size:clamp(1.6rem, 8vw, 2.8rem) !important;}
+  .case-mark.is-long{font-size:clamp(1.2rem, 6vw, 2rem) !important;}
+  .case-body{padding:24px 20px; gap:12px;}
+  .case-index{font-size:0.65rem;}
+  .case-title{font-size:clamp(1.3rem, 5.5vw, 1.9rem);}
+  .case-tagline{font-size:0.88rem;}
+  .case-desc{font-size:0.88rem;}
+  .case-stack span{font-size:0.62rem; padding:5px 10px;}
+}
+
+/* More projects grid mobile */
+@media (max-width:640px){
+  .more-work{margin-top:36px;}
+  .more-work-head{flex-direction:column; align-items:flex-start; gap:16px; margin-bottom:20px;}
+  .more-work-head h3{font-size:clamp(1.1rem, 5vw, 1.4rem);}
+  .more-work-toggle{font-size:0.7rem; padding:10px 18px;}
+  .more-grid{grid-template-columns:1fr !important;}
+  .more-item{padding:20px 18px;}
+  .more-item h4{font-size:0.95rem;}
+  .more-item p{font-size:0.8rem;}
+}
+
+/* Capabilities grid mobile */
+@media (max-width:640px){
+  .cap-grid{grid-template-columns:1fr !important;}
+  .cap-card{padding:24px 20px; min-height:auto; gap:10px;}
+  .cap-card i{font-size:1.2rem;}
+  .cap-card h4{font-size:0.95rem;}
+  .cap-card p{font-size:0.8rem;}
+}
+
+/* Timeline mobile */
+@media (max-width:640px){
+  .tl-spine,.tl-dot{display:none;}
+  .tl-item{
+    grid-template-columns:1fr;
+    gap:8px;
+    padding:28px 0;
+  }
+  .tl-year{font-size:0.8rem;}
+  .tl-content h4{font-size:1.1rem;}
+  .tl-content p{font-size:0.88rem; max-width:100%;}
+  .tl-tags{gap:6px; flex-wrap:wrap;}
+  .tl-tags span{font-size:0.62rem; padding:4px 10px;}
+}
+
+/* Contact section mobile */
+@media (max-width:640px){
+  .contact{padding:clamp(60px,12vw,100px) 0;}
+  .contact-title{font-size:clamp(2rem, 8.5vw, 3.2rem); max-width:100%;}
+  .contact-sub{font-size:0.9rem; max-width:100%;}
+  .contact-actions{
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+    margin-bottom:40px;
+  }
+  .contact-actions .btn{width:min(100%, 300px); justify-content:center;}
+  .contact-channels{
+    gap:24px;
+    flex-wrap:wrap;
+    justify-content:flex-start;
+    text-align:left;
+    padding-top:28px;
+  }
+  .contact-channel{align-items:flex-start;}
+  .contact-channel a,.contact-channel span{font-size:0.85rem; word-break:break-all;}
+  .contact-channel-label{font-size:0.6rem;}
+}
+
+/* Footer mobile */
+@media (max-width:640px){
+  .footer{padding:28px 0;}
+  .footer-inner{flex-direction:column; align-items:flex-start; gap:14px;}
+  .footer-meta{font-size:0.62rem;}
+}
+
+/* Back to top — avoid overlap with content on mobile */
+@media (max-width:640px){
+  .back-to-top{
+    bottom:20px; right:16px;
+    width:42px; height:42px;
+  }
+}
+
+/* iPad range (641px–880px) — fine-tune mid-breakpoint */
+@media (min-width:641px) and (max-width:880px){
+  .hero-title{font-size:clamp(2.4rem, 6.5vw, 4rem);}
+  .hero-actions{gap:14px;}
+  .hero-meta{gap:32px;}
+  .case-body{padding:32px 28px;}
+  .contact-channels{gap:32px;}
+  .contact-actions{gap:14px;}
+}
 </style>
 </head>
 <body>
