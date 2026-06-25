@@ -279,6 +279,17 @@ section{
 }
 #hero-canvas.is-ready{opacity:1;}
 
+/* Bottom vignette — keeps canvas from clashing with next section */
+.hero::after{
+  content:'';
+  position:absolute;
+  bottom:0; left:0; right:0;
+  height:180px;
+  background:linear-gradient(transparent, var(--bg));
+  z-index:1;
+  pointer-events:none;
+}
+
 .hero-inner{
   position:relative;
   z-index:2;
@@ -1221,15 +1232,21 @@ section{
 
 /* Hero section mobile fixes */
 @media (max-width:640px){
-  .hero{padding-top:90px; min-height:auto; padding-bottom:60px;}
+  .hero{padding-top:90px; min-height:100svh; padding-bottom:60px;}
   .hero-inner{padding:0 20px;}
-  .hero-title{font-size:clamp(2rem, 9.5vw, 2.8rem); max-width:100%;}
+
+  /* Remove max-width constraint — was leaving right side empty */
+  .hero-title{
+    font-size:clamp(2rem, 9.5vw, 2.8rem);
+    max-width:100%;
+    width:100%;
+  }
   .hero-sub{font-size:0.95rem; max-width:100%; margin-top:20px;}
   .hero-actions{
     margin-top:28px;
     flex-direction:column;
     gap:12px;
-    align-items:flex-start;
+    align-items:stretch;
   }
   .hero-actions .btn{width:100%; justify-content:center; padding:14px 24px;}
   .hero-meta{
@@ -1249,6 +1266,9 @@ section{
   .hero-meta-item:nth-child(even){padding-left:12px;}
   .hero-meta-num{font-size:1.6rem;}
   .scroll-cue{display:none;}
+
+  /* Eyebrow text wrapping fix on very narrow screens */
+  .eyebrow{font-size:0.62rem; letter-spacing:0.14em; flex-wrap:wrap;}
 }
 
 /* Section spacing tighter on mobile */
