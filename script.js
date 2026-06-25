@@ -256,11 +256,36 @@ function initHeroScene() {
     const h = canvas.parentElement.clientHeight;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
+
+    if (w <= 640) {
+      camera.fov = 62;
+      camera.position.z = 11;
+      group.position.x = 0;
+      group.position.y = -3.2;
+      group.scale.setScalar(0.72);
+      particles.position.x = 0;
+      particles.position.y = -1.5;
+      particlesMat.opacity = 0.35;
+    } else if (w <= 880) {
+      camera.fov = 52;
+      camera.position.z = 10;
+      group.position.x = 0;
+      group.position.y = -1.2;
+      group.scale.setScalar(0.88);
+      particles.position.x = 0;
+      particles.position.y = 0;
+      particlesMat.opacity = 0.55;
+    } else {
+      camera.fov = 45;
+      camera.position.z = 9;
+      group.position.x = 3.2;
+      group.position.y = 0;
+      group.scale.setScalar(1);
+      particles.position.x = 1.9;
+      particles.position.y = 0;
+      particlesMat.opacity = 0.7;
+    }
     camera.updateProjectionMatrix();
-    // Shift constellation toward the right side on wide viewports
-    const offset = w > 880 ? 3.2 : 0;
-    group.position.x = offset;
-    particles.position.x = offset * 0.6;
   }
 
   // ---- Group that holds the whole constellation
